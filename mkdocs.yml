@@ -11,7 +11,8 @@ markdown_extensions:
 
 
 extra_javascript:
-- https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js
-- https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.js
-- https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml-full.js
-- https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg-full.js
+    - js/katex.js
+    - https://unpkg.com/katex@0/dist/katex.min.js
+    - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+extra_css:
+    - https://unpkg.com/katex@0/dist/katex.min.css
