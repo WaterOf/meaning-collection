@@ -2,9 +2,7 @@
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-$$
-a = \frac{1}{2}
-$$
+$\R$ 
 
 ## Commands
 
