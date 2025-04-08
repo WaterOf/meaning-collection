@@ -1,18 +1,43 @@
 site_name: My Docs
 theme:
   name: 'material'
-nav:
-  - Home: index.md
-  - About: about.md
 
 markdown_extensions:
-  - pymdownx.arithmatex:
-      generic: true  # 启用通用TeX语法支持
-
+- pymdownx.highlight:     # Code Block
+    linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.inlinehilite     # Code Block
+- pymdownx.snippets     # Code Block
+- pymdownx.superfences:     # Mermaid
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
+- pymdownx.arithmatex:     # KaTeX
+    generic: true
+- admonition
+- pymdownx.details
+- pymdownx.superfences
 
 extra_javascript:
-    - js/katex.js
-    - https://unpkg.com/katex@0/dist/katex.min.js
-    - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+- js/katex.js
+- https://unpkg.com/katex@0/dist/katex.min.js
+- https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
 extra_css:
-    - https://unpkg.com/katex@0/dist/katex.min.css
+- https://unpkg.com/katex@0/dist/katex.min.css
+
+nav:
+- 首页: index.md
+- C++:
+  - C++/C++文件读取.md
+- ECM-NNLF-VLOP:
+  - ECM-NNLF-VLOP/CU划分与编码顺序.md
+  - ECM-NNLF-VLOP/xCompressCU函数解析.md
+  - ECM-NNLF-VLOP/代码解释：`getGeoBlendCand` 函数.md
+  - ECM-NNLF-VLOP/几何混合候选(Geometric Blending Candidates)详解.md
+  - ECM-NNLF-VLOP/帧内预测模式相关.md
+  - ECM-NNLF-VLOP/视频编解码中各Buffer的分类与产生环节分析.md
+  - ECM-NNLF-VLOP/视频编解码标准中主要图像类型的分类和定义.md
+- vvenc:
+  - vvenc/vvenc CU (Coding Unit) 编码流程详解.md
