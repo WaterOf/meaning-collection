@@ -31,6 +31,8 @@ nav:
 - 首页: index.md
 - C++:
   - C++/C++文件读取.md
+- Codec:
+  - Codec/Intra Predicition/ISP与MIP.md
 - ECM-NNLF-VLOP:
   - ECM-NNLF-VLOP/CU划分与编码顺序.md
   - ECM-NNLF-VLOP/xCompressCU函数解析.md
@@ -40,4 +42,19 @@ nav:
   - ECM-NNLF-VLOP/视频编解码中各Buffer的分类与产生环节分析.md
   - ECM-NNLF-VLOP/视频编解码标准中主要图像类型的分类和定义.md
 - vvenc:
+  - vvenc/DataStructure.md
   - vvenc/vvenc CU (Coding Unit) 编码流程详解.md
+  - vvenc/xCheckRDCostIntra/calcRdCost函数解析.md
+  - vvenc/xCheckRDCostIntra/estIntraPredChromaQT函数深度解析.md
+  - vvenc/xCheckRDCostIntra/estIntraPredLumaQT函数深度解析.md
+  - vvenc/xCheckRDCostIntra/getDistPart函数解析.md
+  - vvenc/xCheckRDCostIntra/invTransformNxN函数解析.md
+  - vvenc/xCheckRDCostIntra/predIntraAng函数解析.md
+  - vvenc/xCheckRDCostIntra/transformNxN函数深度解析.md
+  - vvenc/xCheckRDCostIntra/xCheckBestMode函数解析.md
+  - vvenc/xCheckRDCostIntra/xCheckRDCostIntra函数解析.md
+  - vvenc/xCheckRDCostIntra/xIntraChromaCodingQT函数深度解析.md
+  - vvenc/xCheckRDCostIntra/xIntraCodingLumaQT函数深度解析.md
+  - vvenc/xCheckRDCostIntra/xIntraCodingTUBlock函数深度解析.md
+  - vvenc/xCheckRDCostIntra/xSpeedUpISP函数解析.md
+  - vvenc/xFunction! 这是什么？.md

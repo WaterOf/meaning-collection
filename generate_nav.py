@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 def generate_nav():
     docs_dir = "docs"
-    exclude_dirs = ["js"]
+    exclude_dirs = ["js",".obsidian"]
     exclude_files = ["index.md"]
     
     nav = OrderedDict()
