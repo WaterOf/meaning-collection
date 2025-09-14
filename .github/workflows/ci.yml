@@ -1,0 +1,36 @@
+name: Deploy MkDocs to GitHub Pages # 工作流的名称
+
+# 指定触发此工作流的事件
+on:
+  push:
+    branches: [ main, master ] # 当代码推送到 'main' 或 'master' 分支时触发
+  pull_request:
+    branches: [ main, master ] # 当针对这些分支创建PR时也触发（通常仅用于测试）
+
+# 设置工作流的权限
+permissions:
+  contents: write # 赋予工作流写入仓库内容的权限，这是 gh-deploy 所必需的
+
+# 工作流要执行的任务
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # 在最新的Ubuntu系统环境中运行
+
+    steps:
+      # 步骤1：检出代码（将您的仓库代码下载到虚拟机）
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：设置Python环境
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # 使用最新的稳定版Python 3
+
+      # 步骤3：安装依赖（MkDocs和您使用的主题/插件）
+      - name: Install dependencies
+        run: pip install mkdocs mkdocs-material # 请务必根据您的 mkdocs.yml 修改此行！
+
+      # 步骤4：部署到GitHub Pages
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
