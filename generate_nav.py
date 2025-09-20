@@ -65,34 +65,44 @@ def update_mkdocs_config(nav_data):
         config["nav"] = []
 
     # 清除现有导航（保留首页）
-    config["nav"] = [item for item in config["nav"] if "首页" in item]
+    config["nav"] = [
+        item for item in config["nav"] if isinstance(item, str) and "首页" in item
+    ]
 
-    # 将嵌套结构转换为 mkdocs 的导航格式
+    # 将嵌套结构转换为 MkDocs 兼容的导航格式
     for category, content in nav_data.items():
         nav_entry = flatten_nested_structure(content, category)
-        config["nav"].append(nav_entry)
+        config["nav"].extend(nav_entry)
 
     with open("mkdocs.yml", "w", encoding="utf-8") as f:
         yaml.dump(config, f)
 
 
 def flatten_nested_structure(structure, current_path=""):
-    """将嵌套结构转换为 mkdocs 的导航列表格式"""
-    result = OrderedDict()
+    """将嵌套结构转换为 MkDocs 兼容的导航格式"""
+    result = []
+
     if "_files" in structure:
-        result[current_path] = structure["_files"]
+        # 如果当前层级有文件，直接添加
+        if current_path:
+            result.append({current_path: structure["_files"]})
+        else:
+            result.extend(structure["_files"])
 
     for key, value in structure.items():
         if key == "_files":
             continue
+
         new_path = f"{current_path}/{key}" if current_path else key
         nested = flatten_nested_structure(value, new_path)
-        if current_path:
-            if current_path not in result:
-                result[current_path] = []
-            result[current_path].append(nested)
-        else:
-            result.update(nested)
+
+        if nested:
+            if current_path:
+                # 如果当前层级有子目录，构建嵌套字典
+                result.append({current_path: nested})
+            else:
+                # 如果是顶级目录，直接添加
+                result.append({key: nested})
 
     return result
 
