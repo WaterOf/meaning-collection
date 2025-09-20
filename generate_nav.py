@@ -93,7 +93,7 @@ def flatten_nested_structure(structure, current_path=""):
         if key == "_files":
             continue
 
-        new_path = f"{current_path}/{key}" if current_path else key
+        new_path = f"{key}" if current_path else key
         nested = flatten_nested_structure(value, new_path)
 
         if nested:
