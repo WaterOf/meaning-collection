@@ -1,6 +1,7 @@
 import os
-import yaml
+import re
 from collections import OrderedDict
+from ruamel.yaml import YAML
 
 
 def generate_nav():
@@ -31,7 +32,10 @@ def process_directory(dir_path, base_dir, exclude_files):
     md_files = []
     for file in os.listdir(dir_path):
         if file.endswith(".md") and file not in exclude_files:
-            md_files.append(os.path.join(rel_path, file).replace("\\", "/"))
+            # 处理文件名：移除前导序号
+            display_name = remove_leading_numbers(os.path.splitext(file)[0])
+            file_path = os.path.join(rel_path, file).replace("\\", "/")
+            md_files.append({display_name: file_path})
 
     # 获取子目录
     subdirs = []
@@ -49,21 +53,32 @@ def process_directory(dir_path, base_dir, exclude_files):
             entry = {dir_name: []}
             # 添加当前目录的文件
             if md_files:
-                entry[dir_name].extend(sorted(md_files))
+                entry[dir_name].extend(
+                    sorted(md_files, key=lambda x: list(x.keys())[0])
+                )
             # 添加子目录
             entry[dir_name].extend(subdirs)
             return entry
         else:
             # 只有文件，直接返回文件列表
-            return {dir_name: sorted(md_files)}
+            return {dir_name: sorted(md_files, key=lambda x: list(x.keys())[0])}
 
     return None
 
 
+def remove_leading_numbers(name):
+    """移除文件名中的前导序号"""
+    # 匹配开头的一个或多个数字，后跟可能的分隔符（如空格、-、_等）
+    match = re.match(r"^(\d+)[\s\-_]*(.*)", name)
+    if match:
+        return (
+            match.group(2) if match.group(2) else name
+        )  # 如果移除序号后为空，则保留原名
+    return name
+
+
 def update_mkdocs_config(nav_data):
     """更新 MkDocs 配置文件"""
-    from ruamel.yaml import YAML
-
     yaml = YAML()
     yaml.preserve_quotes = True
     yaml.width = 4096
@@ -81,4 +96,4 @@ def update_mkdocs_config(nav_data):
 if __name__ == "__main__":
     nav_structure = generate_nav()
     update_mkdocs_config(nav_structure)
-    print("导航配置已更新，支持子目录分级显示！")
+    print("导航配置已更新，支持子目录分级显示且已移除文件名序号！")
