@@ -32,10 +32,25 @@ def process_directory(dir_path, base_dir, exclude_files):
     md_files = []
     for file in os.listdir(dir_path):
         if file.endswith(".md") and file not in exclude_files:
-            # 处理文件名：移除前导序号
+            # 提取文件名中的序号用于排序
+            sort_key = extract_sort_key(file)
+            # 处理显示名称：移除前导序号
             display_name = remove_leading_numbers(os.path.splitext(file)[0])
             file_path = os.path.join(rel_path, file).replace("\\", "/")
-            md_files.append({display_name: file_path})
+            md_files.append(
+                {
+                    "sort_key": sort_key,
+                    "display_name": display_name,
+                    "file_path": file_path,
+                }
+            )
+
+    # 按序号排序文件
+    md_files_sorted = sorted(md_files, key=lambda x: x["sort_key"])
+    # 转换为最终的导航格式
+    md_files_final = [
+        {item["display_name"]: item["file_path"]} for item in md_files_sorted
+    ]
 
     # 获取子目录
     subdirs = []
@@ -47,23 +62,30 @@ def process_directory(dir_path, base_dir, exclude_files):
                 subdirs.append(subdir_entry)
 
     # 构建导航条目
-    if md_files or subdirs:
+    if md_files_final or subdirs:
         if subdirs:
             # 如果有子目录，创建嵌套结构
             entry = {dir_name: []}
             # 添加当前目录的文件
-            if md_files:
-                entry[dir_name].extend(
-                    sorted(md_files, key=lambda x: list(x.keys())[0])
-                )
+            if md_files_final:
+                entry[dir_name].extend(md_files_final)
             # 添加子目录
             entry[dir_name].extend(subdirs)
             return entry
         else:
             # 只有文件，直接返回文件列表
-            return {dir_name: sorted(md_files, key=lambda x: list(x.keys())[0])}
+            return {dir_name: md_files_final}
 
     return None
+
+
+def extract_sort_key(filename):
+    """从文件名中提取排序用的序号"""
+    # 匹配开头的数字部分
+    match = re.match(r"^(\d+)", os.path.splitext(filename)[0])
+    if match:
+        return int(match.group(1))
+    return float("inf")  # 没有数字的文件排到最后
 
 
 def remove_leading_numbers(name):
