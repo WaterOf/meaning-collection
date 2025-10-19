@@ -1,6 +1,8 @@
-site_name: My Docs
+site_name: Meaning Collection
 theme:
   name: 'material'
+  logo: 'icon/book.svg'
+  favicon: 'icon/book.svg'
 
 markdown_extensions:
 - pymdownx.highlight:     # Code Block
